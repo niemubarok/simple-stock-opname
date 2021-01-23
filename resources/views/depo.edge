@@ -1,0 +1,96 @@
+@layout('layouts/main')
+
+@section('title')
+Pilih Depo
+@endsection
+
+@section('content')
+
+</div>
+<form action="/depo" method="post" class="needs-validation">
+<div class="custom-container rounded">
+  <div class="card p-1 bg-secondary">
+    <div class="form-floating mb-3">
+      <input type="text" name="petugas" class="form-control" id="floatingInput" placeholder="username di khanza" value="{{session.get('petugasSession')}}">
+      @if(flashMessages.get('emptyuser'))
+      <label class="text-danger" for="floatingInput">{{flashMessages.get('emptyuser') || 'Nama petugas'}}</label>
+      @else
+      <label for="floatingInput">{{flashMessages.get('emptyuser') || 'Nama petugas'}}</label>
+      @endif
+    </div>
+    {{--  <p>{{ flashMessages.get('auth.errors.uid') || '' }}</p>  --}}
+    {{--  <div class="form-floating">
+      <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+      <label for="floatingPassword">Password</label>
+    </div>
+  </div>  --}}
+
+  <div class="input-group mb-3 mt-2">
+
+    {{--  <label class="input-group-text bg-secondary text-white for="inputGroupSelect01">PILIH DEPO</label>  --}}
+    @if(flashMessages.has('emptydepo'))
+
+    <select class="form-select bg-danger text-white" id="inputGroupSelect01" name="depo" required>
+      <option selected>--PILIH DEPO--</option>
+      @each(depo in depo)
+    <option value="{{ depo.kodeBangsal }}">
+      {{ depo.namaBangsal }}
+    </option>
+    @endeach
+    </select>
+
+    @else
+
+    <select class="form-select bg-info" id="inputGroupSelect01" name="depo" required>
+      <option selected>--PILIH DEPO--</option>
+      @each(depo in depo)
+    <option value="{{ depo.kodeBangsal }}">
+      {{ depo.namaBangsal }}
+    </option>
+    @endeach
+    </select>
+
+    @endif
+  </div>
+  {{--  {{flashMessages.get('emptyuser')}}  --}}
+
+
+<div class="container d-flex flex-row-reverse">
+
+  <div class="row justify-content-center">
+    <div class="col-sm">
+      <button type="submit" class="btn btn-warning" >ke menu input SO --></button>
+    </div>
+  </div>
+</div>
+</div>
+</form>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+
+  {{--  <script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+          .forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+              if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+              }
+
+              form.classList.add('was-validated')
+            }, false)
+          })
+      })()
+
+  </script>  --}}
+  @endsection

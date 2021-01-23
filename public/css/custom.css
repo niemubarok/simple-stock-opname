@@ -1,0 +1,31 @@
+
+@media only screen and (min-width:400px){
+
+  .custom-container{
+    width: fit-content;
+    align-content: center;
+    margin:auto;
+    margin-top: 50px;
+  }
+
+
+}
+
+
+
+#petugas{
+  margin-right:-10px;
+  margin-bottom:-23px;
+}
+
+#nama-depo{
+  /* margin-left:-100px; */
+  margin-right:0px;
+  margin-bottom:-23px;
+}
+
+
+
+/* body{
+background-color: aqua;
+} */
