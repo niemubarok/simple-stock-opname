@@ -11,25 +11,34 @@ Input SO
 <div class="custom-container">
 
 
-
       <form class="needs-validation" action="/so" method="POST" novalidate>
 
-      <div class="card ">
+      <div class="card shadow">
         <div class="card-header bg-warning bg-gradient">
 
-          <div class="row justify-content-end">
-            <div class="col">
+          <div class="row justify-content-between">
 
-                <span class="badge bg-success text-white mb-2 " style="background-color:darkorange;">Input Stok opname</span>
+            <div class="container d-flex flex-row">
+              <div class="col" >
+
+                <span class="badge bg-success text-white mb-2 rounded-pill" style="background-color:darkorange;">Stok Opname</span>
               </div>
+              <div class="col" style="width:max-content">
+
+                <p class="text-dark border border-dark px-3 rounded-pill" style="width:max-content; font-size:7pt;">{{tanggal}}</p>
+              </div>
+            </div>
+
               <div class="container d-flex flex-row">
 
-              <div id="nama-depo" class="col" style="margin-bottom:-15px">
+              <div id="nama-depo" class="col-6 ps-3" style="margin-bottom:-15px">
 
-                <span  class="badge border text-dark bg-white" style="font-size: x-small">Depo : {{namaDepo}}</span>
+                <span  class="badge shadow-sm border text-dark bg-white rounded-pill" style="font-size: x-small;height:18px;">
+                  <span class="rounded-pill px-2  bg-secondary" style="margin-left:-20px; font-size: x-small; height:20px;color:#ffc721">Depo :</span>
+                  {{namaDepo}}</span>
               </div>
-              <div id="petugas" class="petugas col" >
-                <span  class="badge border text-dark bg-white" style="font-size: x-small" >Petugas: {{petugasSession}}</span>
+              <div id="petugas" class="petugas col-6 ms-2" style="width:fit-content">
+                <span  class="badge shadow-sm order text-dark bg-white rounded-pill" style="font-size: x-small; height:18px;" ><span class="rounded-pill px-2  bg-secondary" style="margin-left:-20px; font-size: x-small; height:20px;color:#ffc721">Petugas:</span> {{petugasSession}}</span>
 
               </div>
 
@@ -40,20 +49,26 @@ Input SO
 
         <div class="card-body mt-2">
           <div class="input-group">
-            <span class="input-group-text bg-warning bg-gradient text-dark" id="basic-addon3">Nama Obat</span>
-            <input class="form-control border rounded-end"
+            <span class="input-group-text bg-warning bg-gradient text-dark" style="font-size:x-small" id="basic-addon3">Nama Barang</span>
+            <input class="form-control "
               style="border: 0"
               type="text"
               name="nama_obat"
-              value="{{ NamaObat?.namaBarang }}"
+              {{--  value="{{ NamaObat?.namaBarang }}"  --}}
+              value="{{ namaBarang }}"
               readonly
             />
-            <input type="hidden" name="kode_obat" value="{{ KodeObat }}" />
+            @if(flashMessages.has('failed'))
+            <button type="submit" formaction="/next" class="btn btn-secondary rounded-end">next</button>
+            @endif
+            <input type="hidden" name="kode_barang" value="{{ kodeBarangSession }}" />
           </div>
 
+
             <div class="input-group mt-1">
-              <span class="input-group-text bg-warning bg-gradient text-dark">QTY</span>
-              <input class="rounded-end" style="width: 100px" type="text" name="qty" autofocus required/>
+              <span class="input-group-text bg-warning bg-gradient text-dark pe-3" style="font-size:x-small">Jumlah Real</span>
+              <input class="rounded-end border border-warning " style="width: 100px" type="text" name="qty" autofocus required/>
+
 
               @if(flashMessages.has('errors.qty'))
 
@@ -61,27 +76,25 @@ Input SO
 
               @else
 
-                <button type="submit" class="btn btn-primary ps-3 pe-3 ms-1 rounded"> {{ flashMessages.get("errors.qty") || 'Simpan'  }}</button>
+                <button type="submit" class="btn btn-success ps-3 pe-3 ms-1 rounded"> {{ flashMessages.get("errors.qty") || 'Simpan'  }}</button>
 
               @endif
 
             </div>
 
             </div>
-            <div class="card-footer d-flex justify-content-between flex-row-reverse">
-              <span class="badge bg-secondary ">
-                <a href="/depo" class="text-warning" style="text-decoration:none;color:darkorange;font-size: xx-small">Ganti Depo</a>
-              </span>
+            <div class="card-footer bg-secondary d-flex justify-content-between flex-row-reverse">
+                <a href="/depo"  class="badge border" style="text-decoration:none;color:orange;font-size:5pt;height:min-content">Ganti Depo</a>
 
               @if(flashMessages.has('success'))
-              <p class="text-success success-alert mt-1 " style="font-size: xx-small;margin:-2px;margin-right:50px" >
+              <span class="rounded bg-white border border-1 border-success text-success mt-1 px-2" style="font-size: xx-small; padding:1px;" >
                 {{ flashMessages.get('success') }}
-              </p>
+              </span>
 
               @elseif(flashMessages.has('failed'))
-              <p class="text-dangermt-1 " style="font-size: xx-small;margin:-2px;margin-right:50px" >
+              <span class="rounded border border-1 border-danger bg-white text-danger mt-1 px-2" style="font-size: xx-small; padding:1px;" >
                 {{ flashMessages.get('failed') }}
-              </p>
+              </span>
 
             @endif
 
@@ -90,5 +103,4 @@ Input SO
 
       </div>
     </form>
-
 @endsection

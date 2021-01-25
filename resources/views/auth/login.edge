@@ -1,50 +1,60 @@
-@layout('layouts/main')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-@section('title')
-Pilih Depo
-@endsection
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>
 
-@section('content')
+  <title>Document</title>
+</head>
+<body>
 
-</div>
-<form action="/login" method="post">
-<div class="custom-container rounded">
-  <div class="card p-1 bg-secondary">
-    <div class="form-floating mb-3">
-      <input type="text" name="username" class="form-control" id="floatingInput" placeholder="username di khanza">
-      <label for="floatingInput">Nama petugas</label>
-    </div>
-    {{--  <p>{{ flashMessages.get('auth.errors.uid') || '' }}</p>  --}}
-    {{--  <div class="form-floating">
-      <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
-      <label for="floatingPassword">Password</label>
-    </div>
-  </div>  --}}
 
-  <div class="input-group mb-3 mt-2">
-    <label class="input-group-text bg-secondary text-white for="inputGroupSelect01">PILIH DEPO</label>
-    <select class="form-select" id="inputGroupSelect01" required>
-      <option selected>...</option>
-      @each(depo in depo)
-    <option value="{{ depo.kodeBangsal }}">
-      {{ depo.namaBangsal }}
-    </option>
-    @endeach
-    </select>
-  </div>
-
-<div class="container d-flex flex-row-reverse">
-
-  <div class="row justify-content-center">
-    <div class="col-sm">
-      <button type="submit" class="btn btn-warning" >ke menu input SO</button>
-    </div>
-  </div>
-</div>
-</div>
+  <form method="POST">
+    <input type="text" name="name" id="name"/>
+    <input type="submit" id="submit-form" class="hidden" />
 </form>
 
+<label for="submit-form" tabindex="0">Submit</label>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+<script>
+  $('submit-form').on('click', function{
 
-  @endsection
+    let value = document.getElementById('name').value;
+    $.ajax({
+      url : '/login',
+      type: 'POST',
+      data:{
+        name: value
+      },
+      success: function(msg) {
+            alert('Email Sent');
+        }
+    });
+  })
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

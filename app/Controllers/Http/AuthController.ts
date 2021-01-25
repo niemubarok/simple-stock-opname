@@ -1,18 +1,16 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-import Depo from 'App/Models/Depo'
-
 export default class AuthController {
 
   /**
    * loginForm
    */
-  public async loginForm({view}) {
+  public async loginForm({view, request}:HttpContextContract) {
 
-    let depo = await Depo.all()
-    let kodeDepo = depo
+    let valuebutton= request.all()
 
-    return view.render('auth/login', { depo, kodeDepo})
+    console.log(valuebutton)
+    return view.render('auth/login')
 
   }
 

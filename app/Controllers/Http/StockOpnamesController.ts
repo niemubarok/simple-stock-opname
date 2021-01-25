@@ -5,10 +5,29 @@ import Depo from 'App/Models/Depo'
 import GudangBarang from 'App/Models/GudangBarang'
 import Opname from 'App/Models/Opname'
 import TempKodeBarang from 'App/Models/TempKodeBarang'
-import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import { schema } from '@ioc:Adonis/Core/Validator'
 
 
 export default class StockOpnamesController {
+
+  public tanggal() {
+
+    let date_ob = new Date();
+
+    // adjust 0 before single digit date
+    let date = ("0" + date_ob.getDate()).slice(-2);
+
+    // current month
+    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+
+    // current year
+    let year = date_ob.getFullYear();
+
+    let tanggal = year + "-" + month + "-" + date
+
+    return tanggal
+
+  }
 
 
   /**
@@ -16,18 +35,21 @@ export default class StockOpnamesController {
    */
   public async form({ view, session, response }:HttpContextContract) {
 
-    let KodeBarang = await TempKodeBarang.findBy('qty', null)
-    let KodeObat = KodeBarang?.kode_brng
+    // return this.tanggal()
+
+    // let KodeBarang = await TempKodeBarang.findBy('status', 0)
+    // let NamaObat = await Databarang.findBy('kode_brng', KodeObat)
+    let KodeBarangSession = session.get('kodeBarangSession')
+    let dataBarang = await Databarang.findBy('kode_brng', KodeBarangSession)
+    let NamaBarang = dataBarang?.namaBarang
+    // let KodeObat:any = KodeBarang?.kode_brng
     let depo = await Depo.all()
     let kodeDepo = depo
     session.put('depo', kodeDepo)
 
-    let NamaObat = await Databarang.findBy('kode_brng', KodeObat)
+
     let depoSession = session.get('depoSession')
     let petugasSession = session.get('petugasSession')
-
-
-    console.log(petugasSession)
 
     if(petugasSession == '' || petugasSession == null){
       session.flash('emptyuser', 'Silahkan isi nama petugas SO')
@@ -37,13 +59,18 @@ export default class StockOpnamesController {
       return response.redirect('/depo')
     }
 
+
+
+
     return view.render('form_input',
     {
       depoSession: depoSession,
       petugasSession:petugasSession,
       namaDepo:session.get('namaDepo'),
-      KodeObat:KodeObat,
-      NamaObat:NamaObat
+      // KodeObat:KodeObat,
+      kodeBarangSession:KodeBarangSession,
+      namaBarang:NamaBarang,
+      tanggal:this.tanggal()
     })
   }
 
@@ -62,48 +89,41 @@ export default class StockOpnamesController {
             qty: schema.number()
           }),
           messages:{
-            'qty.required' : '<--ISI QTY'
+            'qty.required' : '⬅ISI REAL'
           }
       })
 
 
-    let date_ob = new Date();
 
-    // adjust 0 before single digit date
-    let date = ("0" + date_ob.getDate()).slice(-2);
+      //kode barang dari form So
+    let kdBarangFromInput = request.input('kode_barang')
 
-    // current month
-    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-
-    // current year
-    let year = date_ob.getFullYear();
-
-    let kdBarang = request.input('kode_obat')
-
-    let barang = await Databarang.findBy('kode_brng', kdBarang)
+      //ambil data dari table databarang
+    let barang = await Databarang.findBy('kode_brng', kdBarangFromInput)
     let namabarang = barang?.namaBarang.toString()
+    let hBeli:any = barang?.hBeli
 
-    let gudangbarang = await GudangBarang.findBy('kode_brng', kdBarang)
+    //ambil data dari table temp_kode_barang
+    let tempKodeBarang = await TempKodeBarang.findBy('status', 0)
+    let nextKodeBarang:any = tempKodeBarang?.kode_brng
 
+    // let tanggal = year + "-" + month + "-" + date
+    let tanggal = this.tanggal()
 
-    let hBeli = barang?.hBeli
-    let tanggal = year + "-" + month + "-" + date
-    let stok = gudangbarang?.stok
+    //ambil data dari table gudang barang
+    let gudangbarang = await GudangBarang.findBy('kode_brng', kdBarangFromInput)
+    let stok:any = gudangbarang?.stok
     let real = validated.qty
-    let hasil = stok - real
 
 
-    let selisih = hasil < 0 ? hasil*-1 : 0
-    let lebih = hasil > 0 ? hasil : 0
+    let selisih = real <= stok ?  stok-real : 0
+    let lebih = real >= stok ?  real-stok : 0
     let nomihilang = hBeli * selisih
     let nomilebih = hBeli * lebih
-    // let keterangan = request.input('kode_depo'),
-    // let kdBangsal = request.input('kode_depo')
 
-      console.log(validated)
     const opname = new Opname()
 
-    opname.kodeBrng= request.input('kode_obat')
+    opname.kodeBrng= kdBarangFromInput
     opname.hBeli=hBeli
     opname.tanggal=tanggal
     opname.stok=stok
@@ -117,21 +137,35 @@ export default class StockOpnamesController {
     opname.noBatch=''
     opname.noFaktur=''
 
-    await opname.save()
+    try {
 
-    if(opname.$isPersisted){
-      await TempKodeBarang.query().where('kode_brng', kdBarang).update({qty:real})
+      await opname.save()
+      await TempKodeBarang.query().where('kode_brng', nextKodeBarang).update({status:1})
+      await GudangBarang.query().where('kode_brng', kdBarangFromInput).update({stok:real})
+      await GudangBarang.query().where('kode_brng', kdBarangFromInput).update({kd_bangsal:session.get('depoSession')})
+      session.put('kodeBarangSession', nextKodeBarang)
       session.flash('success', `${namabarang} berhasil diinput`)
       return response.redirect().back()
-    }else{
+
+    } catch (error) {
+      // await TempKodeBarang.query().where('kode_brng', kdBarang).update({status:0})
       session.flash('failed', `${namabarang} gagal diinput`)
       return response.redirect().back()
     }
+  }
 
+  /**
+   * next
+   */
+  public async next({session,response}:HttpContextContract) {
+    let tempKodeBarang = await TempKodeBarang.findBy('status', 0)
+    let KodeBarang:any = tempKodeBarang?.kode_brng
+    await TempKodeBarang.query().where('kode_brng', KodeBarang).update({status:1})
 
+    session.put('kodeBarangSession', KodeBarang)
 
+    response.redirect('/so')
 
-    // return request.input('kode_depo')
   }
 }
 

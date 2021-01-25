@@ -10,12 +10,12 @@ Pilih Depo
 <form action="/depo" method="post" class="needs-validation">
 <div class="custom-container rounded">
   <div class="card p-1 bg-secondary">
-    <div class="form-floating mb-3">
-      <input type="text" name="petugas" class="form-control" id="floatingInput" placeholder="username di khanza" value="{{session.get('petugasSession')}}">
+    <div class="form-floating mb-2">
+      <input type="text" name="petugas" class="form-control" id="floatingInput" placeholder="Nama Petugas" value="{{session.get('petugasSession') ? session.get('petugasSession'): ''}}">
       @if(flashMessages.get('emptyuser'))
       <label class="text-danger" for="floatingInput">{{flashMessages.get('emptyuser') || 'Nama petugas'}}</label>
       @else
-      <label for="floatingInput">{{flashMessages.get('emptyuser') || 'Nama petugas'}}</label>
+      <label for="floatingInput">{{flashMessages.get('emptyuser') || 'Nama Petugas'}}</label>
       @endif
     </div>
     {{--  <p>{{ flashMessages.get('auth.errors.uid') || '' }}</p>  --}}
@@ -25,7 +25,7 @@ Pilih Depo
     </div>
   </div>  --}}
 
-  <div class="input-group mb-3 mt-2">
+  <div class="input-group mb-2 mt-1">
 
     {{--  <label class="input-group-text bg-secondary text-white for="inputGroupSelect01">PILIH DEPO</label>  --}}
     @if(flashMessages.has('emptydepo'))
@@ -41,7 +41,7 @@ Pilih Depo
 
     @else
 
-    <select class="form-select bg-info" id="inputGroupSelect01" name="depo" required>
+    <select class="form-select" id="inputGroupSelect01" name="depo" required>
       <option selected>--PILIH DEPO--</option>
       @each(depo in depo)
     <option value="{{ depo.kodeBangsal }}">
@@ -55,11 +55,11 @@ Pilih Depo
   {{--  {{flashMessages.get('emptyuser')}}  --}}
 
 
-<div class="container d-flex flex-row-reverse">
+<div class="container d-flex flex-row-reverse ">
 
-  <div class="row justify-content-center">
-    <div class="col-sm">
-      <button type="submit" class="btn btn-warning" >ke menu input SO --></button>
+  <div class="row justify-content-center ">
+    <div class="col-sm rounded-pill bg-secondary" style="margin-bottom:-20px;margin-right:10px;padding:5px" >
+      <button type="submit" class="btn btn-warning rounded-pill ps-4 pe-3" >LANJUT 🡆</button>
     </div>
   </div>
 </div>
@@ -67,7 +67,7 @@ Pilih Depo
 </form>
 
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
 
 
   {{--  <script>

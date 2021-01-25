@@ -25,4 +25,7 @@ Route.get('/so', 'StockOpnamesController.form')
 Route.post('/so', 'StockOpnamesController.store')
 Route.get('/depo', 'DeposController.depoForm')
 Route.post('/depo', 'DeposController.depo')
-// Route.on('/depo').render('depo')
+Route.post('/next', 'StockOpnamesController.next')
+
+// Route.on('/login').render('auth/login')
+// Route.post('/login', 'AuthController.loginForm')

@@ -22,6 +22,7 @@
     "@adonisjs/repl": "^1.0.0",
     "@adonisjs/session": "^4.0.6",
     "@adonisjs/view": "^3.0.0",
+    "@types/jquery": "^3.5.5",
     "luxon": "^1.25.0",
     "mysql": "^2.18.1",
     "phc-argon2": "^1.0.11",

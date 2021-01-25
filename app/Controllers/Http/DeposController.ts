@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import Depo from "App/Models/Depo"
+import TempKodeBarang from 'App/Models/TempKodeBarang'
 
 export default class DeposController {
 
@@ -25,10 +26,15 @@ export default class DeposController {
     const pilihdepo = request.input('depo')
 
     const depo= await Depo.findBy('kd_bangsal', pilihdepo)
-    const namaDepo = depo?.namaBangsal
+    const namaDepo:any = depo?.namaBangsal
+
+    let tempKodeBarang = await TempKodeBarang.findBy('status', 0)
+    let KodeBarang:any = tempKodeBarang?.kode_brng
+    await TempKodeBarang.query().where('kode_brng', KodeBarang).update({status:1})
 
     session.put('depoSession', pilihdepo)
     session.put('namaDepo', namaDepo)
+    session.put('kodeBarangSession', KodeBarang)
     session.put('petugasSession', petugas)
 
 

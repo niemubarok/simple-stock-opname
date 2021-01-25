@@ -9,6 +9,6 @@ export default class TempKodeBarang extends BaseModel {
   @column({columnName:'kode_brng'})
   public kode_brng: string
 
-  @column({columnName:'qty'})
-  public qty: string
+  @column({columnName:'status'})
+  public status: number
 }
