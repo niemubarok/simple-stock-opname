@@ -1,17 +1,4 @@
 
-/* @media only screen and (min-width:400px){ */
-
-  .custom-container{
-    width: max-content;
-    align-content: center;
-    margin:auto;
-    margin-top: 50px;
-  }
-
-
-/* } */
-
-
 
 #petugas{
   margin-right:-10px;
@@ -23,23 +10,6 @@
   margin-right:0px;
   margin-bottom:-23px;
 }
-/*
-title {
-	width: 100%;
-	margin-bottom: 10px;
-	background: rgba(0,0,0,0.3);
-	border: none;
-	outline: none;
-	padding: 10px;
-	border: 1px solid rgba(0,0,0,0.3);
-	border-radius: 4px;
-	box-shadow: inset 0 -5px 45px rgba(100,100,100,0.2), 0 1px 1px rgba(255,255,255,0.2);
-	-webkit-transition: box-shadow .5s ease;
-	-moz-transition: box-shadow .5s ease;
-	-o-transition: box-shadow .5s ease;
-	-ms-transition: box-shadow .5s ease;
-	transition: box-shadow .5s ease;
-} */
 
 body{
 background-color:#e9ecef;

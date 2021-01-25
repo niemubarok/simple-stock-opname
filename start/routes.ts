@@ -23,9 +23,10 @@ import Route from '@ioc:Adonis/Core/Route'
 Route.on('/').render('welcome')
 Route.get('/so', 'StockOpnamesController.form')
 Route.post('/so', 'StockOpnamesController.store')
+Route.post('/next', 'StockOpnamesController.next')
+Route.post('/reset', 'StockOpnamesController.reset')
 Route.get('/depo', 'DeposController.depoForm')
 Route.post('/depo', 'DeposController.depo')
-Route.post('/next', 'StockOpnamesController.next')
 
 // Route.on('/login').render('auth/login')
 // Route.post('/login', 'AuthController.loginForm')

@@ -6,16 +6,17 @@ Pilih Depo
 
 @section('content')
 
-</div>
+
+
 <form action="/depo" method="post" class="needs-validation">
-<div class="custom-container rounded">
+<div class="container-lg mt-5 rounded">
   <div class="card p-1 bg-secondary">
     <div class="form-floating mb-2">
       <input type="text" name="petugas" class="form-control" id="floatingInput" placeholder="Nama Petugas" value="{{session.get('petugasSession') ? session.get('petugasSession'): ''}}">
       @if(flashMessages.get('emptyuser'))
       <label class="text-danger" for="floatingInput">{{flashMessages.get('emptyuser') || 'Nama petugas'}}</label>
       @else
-      <label for="floatingInput">{{flashMessages.get('emptyuser') || 'Nama Petugas'}}</label>
+      <label for="floatingInput">{{flashMessages.get('emptyuser') || 'Masukkan Nama Petugas'}}</label>
       @endif
     </div>
     {{--  <p>{{ flashMessages.get('auth.errors.uid') || '' }}</p>  --}}

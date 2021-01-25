@@ -40,6 +40,9 @@ export default class StockOpnamesController {
     // let KodeBarang = await TempKodeBarang.findBy('status', 0)
     // let NamaObat = await Databarang.findBy('kode_brng', KodeObat)
     let KodeBarangSession = session.get('kodeBarangSession')
+    if(KodeBarangSession == undefined){
+      return response.redirect('/depo')
+    }
     let dataBarang = await Databarang.findBy('kode_brng', KodeBarangSession)
     let NamaBarang = dataBarang?.namaBarang
     // let KodeObat:any = KodeBarang?.kode_brng
@@ -165,6 +168,22 @@ export default class StockOpnamesController {
     session.put('kodeBarangSession', KodeBarang)
 
     response.redirect('/so')
+
+  }
+
+  /**
+   * reset
+   */
+  public async reset({response, session}:HttpContextContract) {
+
+    try {
+      await TempKodeBarang.query().where('status', 1 ).update({status:0})
+      session.flash('resetSuccess', 'Berhasil direset')
+      return response.redirect('/so')
+    } catch (error) {
+      session.flash('resetfailed', 'Gagal direset')
+      return response.redirect('/so')
+    }
 
   }
 }

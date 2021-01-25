@@ -6,26 +6,23 @@ Input SO
 
 @section('content')
 
-
-
-<div class="custom-container">
-
+<div class="container-sm mt-5">
 
       <form class="needs-validation" action="/so" method="POST" novalidate>
 
       <div class="card shadow">
         <div class="card-header bg-warning bg-gradient">
 
+          <div class="container-fluid" style="padding-left:0px; padding-right:0px">
           <div class="row justify-content-between">
 
-            <div class="container d-flex flex-row">
-              <div class="col" >
+              <div class="col-6" >
 
                 <span class="badge bg-success text-white mb-2 rounded-pill" style="background-color:darkorange;">Stok Opname</span>
               </div>
-              <div class="col" style="width:max-content">
+              <div class="col-4 offset-md-6" style="width:max-content">
 
-                <p class="text-dark border border-dark px-3 rounded-pill" style="width:max-content; font-size:7pt;">{{tanggal}}</p>
+                <p class="text-dark border border-dark px-3 rounded-pill" style="font-size:7pt;">{{tanggal}}</p>
               </div>
             </div>
 
@@ -50,11 +47,10 @@ Input SO
         <div class="card-body mt-2">
           <div class="input-group">
             <span class="input-group-text bg-warning bg-gradient text-dark" style="font-size:x-small" id="basic-addon3">Nama Barang</span>
-            <input class="form-control "
+            <input class="form-control rounded-end"
               style="border: 0"
               type="text"
               name="nama_obat"
-              {{--  value="{{ NamaObat?.namaBarang }}"  --}}
               value="{{ namaBarang }}"
               readonly
             />
@@ -80,11 +76,17 @@ Input SO
 
               @endif
 
+              @if(petugasSession == 'root')
+                <button type="submit"  formaction="/reset" class="btn btn-danger border ms-2 rounded" >reset</button>
+                @endif
+
+
             </div>
 
             </div>
             <div class="card-footer bg-secondary d-flex justify-content-between flex-row-reverse">
                 <a href="/depo"  class="badge border" style="text-decoration:none;color:orange;font-size:5pt;height:min-content">Ganti Depo</a>
+
 
               @if(flashMessages.has('success'))
               <span class="rounded bg-white border border-1 border-success text-success mt-1 px-2" style="font-size: xx-small; padding:1px;" >
@@ -96,6 +98,15 @@ Input SO
                 {{ flashMessages.get('failed') }}
               </span>
 
+              @elseif(flashMessages.has('resetSuccess'))
+              <span class="rounded bg-white border border-1 border-success text-success mt-1 px-2" style="font-size: xx-small; padding:1px;" >
+                {{ flashMessages.get('resetSuccess') }}
+              </span>
+
+               @elseif(flashMessages.has('resetFailed'))
+              <span class="rounded border border-1 border-danger bg-white text-danger mt-1 px-2" style="font-size: xx-small; padding:1px;" >
+                {{ flashMessages.get('resetFailed') }}
+              </span>
             @endif
 
             </div>
