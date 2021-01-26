@@ -1,36 +1,36 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-import Depo from "App/Models/Depo"
-import TempKodeBarang from 'App/Models/TempKodeBarang'
+import Depo from "../../Models/Depo"
+import TempKodeBarang from '../../Models/TempKodeBarang'
 
 export default class DeposController {
 
-   /**
-   * loginForm
-   */
-  public async depoForm({view}) {
+  /**
+  * loginForm
+  */
+  public async depoForm({ view }) {
 
     let depo = await Depo.all()
     let kodeDepo = depo
 
-    return view.render('depo', { depo, kodeDepo})
+    return view.render('depo', { depo, kodeDepo })
 
   }
 
   /**
    * depo
    */
-  public async depo({request, response, session}:HttpContextContract) {
+  public async depo({ request, response, session }: HttpContextContract) {
 
     const petugas = request.input('petugas')
     const pilihdepo = request.input('depo')
 
-    const depo= await Depo.findBy('kd_bangsal', pilihdepo)
-    const namaDepo:any = depo?.namaBangsal
+    const depo = await Depo.findBy('kd_bangsal', pilihdepo)
+    const namaDepo: any = depo?.namaBangsal
 
     let tempKodeBarang = await TempKodeBarang.findBy('status', 0)
-    let KodeBarang:any = tempKodeBarang?.kode_brng
-    await TempKodeBarang.query().where('kode_brng', KodeBarang).update({status:1})
+    let KodeBarang: any = tempKodeBarang?.kode_brng
+    await TempKodeBarang.query().where('kode_brng', KodeBarang).update({ status: 1 })
 
     session.put('depoSession', pilihdepo)
     session.put('namaDepo', namaDepo)

@@ -9,38 +9,38 @@ export default class Opname extends BaseModel {
   public kodeBrng: string
 
   @column()
-  public hBeli:number
+  public hBeli: number
 
   @column()
-  public tanggal:string
+  public tanggal: string
 
   @column()
-  public stok:string
+  public stok: string
 
   @column()
-  public real:number
+  public real: number
 
   @column()
-  public selisih:number
+  public selisih: number
 
   @column()
-  public nomihilang:number
+  public nomihilang: number
 
   @column()
-  public lebih:number
+  public lebih: number
 
   @column()
-  public nomilebih:number
+  public nomilebih: number
 
   @column()
-  public keterangan:string
+  public keterangan: string
 
   @column()
-  public kdBangsal:string
+  public kdBangsal: string
 
   @column()
-  public noBatch:string
+  public noBatch: string
 
   @column()
-  public noFaktur:string
+  public noFaktur: string
 }

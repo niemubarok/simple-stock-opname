@@ -6,7 +6,12 @@ Pilih Depo
 
 @section('content')
 
-
+@if(flashMessages.has('start'))
+  
+<div class="alert alert-success" style="position:absolute; top:20px; right:100px;">
+{{flashMessages.get('start')}}
+</div>
+@endif
 
 <form action="/depo" method="post" class="needs-validation">
 <div class="container-lg mt-5 rounded">
@@ -33,22 +38,24 @@ Pilih Depo
 
     <select class="form-select bg-danger text-white" id="inputGroupSelect01" name="depo" required>
       <option selected>--PILIH DEPO--</option>
-      @each(depo in depo)
-    <option value="{{ depo.kodeBangsal }}">
-      {{ depo.namaBangsal }}
+    <option value="FAR1">
+      Gudang Farmasi
     </option>
-    @endeach
+    <option value="FAR3">
+      Depo Rajal
+    </option>
     </select>
 
     @else
 
     <select class="form-select" id="inputGroupSelect01" name="depo" required>
-      <option selected>--PILIH DEPO--</option>
-      @each(depo in depo)
-    <option value="{{ depo.kodeBangsal }}">
-      {{ depo.namaBangsal }}
+        <option selected>--PILIH DEPO--</option>
+    <option value="FAR1">
+      Gudang Farmasi
     </option>
-    @endeach
+    <option value="FAR3">
+      Depo Rajal
+    </option>
     </select>
 
     @endif

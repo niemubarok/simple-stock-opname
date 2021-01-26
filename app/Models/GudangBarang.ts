@@ -7,9 +7,9 @@ export default class GudangBarang extends BaseModel {
   @column({ isPrimary: true })
   public kodeBrng: string
 
-  @column()
-  public kdBangsal:string
+  @column({ isPrimary: true })
+  public kdBangsal: string
 
   @column()
-  public stok:string
+  public stok: string
 }

@@ -6,6 +6,9 @@ Input SO
 
 @section('content')
 
+
+
+
 <div class="container-sm mt-5">
 
       <form class="needs-validation" action="/so" method="POST" novalidate>
@@ -47,16 +50,20 @@ Input SO
         <div class="card-body mt-2">
           <div class="input-group">
             <span class="input-group-text bg-warning bg-gradient text-dark" style="font-size:x-small" id="basic-addon3">Nama Barang</span>
-            <input class="form-control rounded-end"
+            {{--  <input class="form-control rounded-end"
               style="border: 0"
               type="text"
               name="nama_obat"
               value="{{ namaBarang }}"
               readonly
-            />
-            @if(flashMessages.has('failed'))
-            <button type="submit" formaction="/next" class="btn btn-secondary rounded-end">next</button>
-            @endif
+            />  --}}
+
+            <input type="text" id="keyword" class="form-control">
+            {{--  @if(flashMessages.has('failed'))  --}}
+            <button type="button" class="btn btn-secondary rounded-end" id="btn-search" data-bs-toggle="modal" data-bs-target="#exampleModal">search</button>
+            {{--  <button type="submit" formaction="/next" class="btn btn-secondary rounded-end">next</button>  --}}
+            {{--  @endif  --}}
+            {{--  <input type="hidden" name="kode_barang" value="{{ kodeBarangSession }}" />  --}}
             <input type="hidden" name="kode_barang" value="{{ kodeBarangSession }}" />
           </div>
 
@@ -114,4 +121,35 @@ Input SO
 
       </div>
     </form>
+
+    <script>
+        $(document).ready(function(){
+        $("#btn-search").click(function(){ 
+            
+            $.ajax({
+            url: '/search', // File tujuan
+            type: 'POST', // Tentukan type nya POST atau GET
+            data: {keyword: $("#keyword").val()}, // Set data yang akan dikirim
+            dataType: "json",
+            beforeSend: function(e) {
+                if(e && e.overrideMimeType) {
+                e.overrideMimeType("application/json;charset=UTF-8");
+                }
+            },
+            success: function(response){ // Ketika proses pengiriman berhasil
+                // Ubah kembali text button search menjadi SEARCH
+                // Dan hapus atribut disabled untuk meng-enable kembali button search nya
+                // $("#btn-search").html("SEARCH").removeAttr("disabled");
+                // alert('success')
+                // Ganti isi dari div view dengan view yang diambil dari search.php
+                $("#keyword").html(response.hasil);
+            }
+            // error: function (xhr, ajaxOptions, thrownError) { // Ketika terjadi error
+            //     alert(xhr.responseText); // munculkan alert
+            // }
+            });
+            });
+        });
+        });
+    </script>
 @endsection
