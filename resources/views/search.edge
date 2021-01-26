@@ -1,0 +1,72 @@
+@layout('layouts/main')
+
+@section('title')
+Input SO
+@endsection
+
+@section('content')
+
+
+
+<div class="container-sm mt-5">
+
+      <form class="needs-validation" action="/so" method="POST" novalidate>
+
+      <div class="card shadow">
+        <div class="card-header bg-warning bg-gradient">
+            
+        </div>
+
+        <div class="card-body mt-2">
+          <div class="input-group">
+            <span class="input-group-text bg-warning bg-gradient text-dark" >Cari Nama Barang</span>
+            
+            <input type="text" id="keyword" class="form-control">
+            {{--  @if(flashMessages.has('failed'))  --}}
+            <button type="button" class="btn btn-secondary rounded-end" id="btn-search" data-bs-toggle="modal" data-bs-target="#exampleModal"><img src="https://img.icons8.com/color/48/000000/search--v2.png"/>
+</button>
+            <input type="hidden" name="kode_barang" value="{{ kodeBarangSession }}" />
+          </div>
+
+
+            </div>
+            <div class="card-footer bg-secondary d-flex justify-content-between flex-row-reverse">
+                
+
+            </div>
+        </div>
+
+      </div>
+    </form>
+
+    <script>
+        $(document).ready(function(){
+        $("#btn-search").click(function(){ 
+            
+            $.ajax({
+            url: '/search', // File tujuan
+            type: 'POST', // Tentukan type nya POST atau GET
+            data: {keyword: $("#keyword").val()}, // Set data yang akan dikirim
+            dataType: "json",
+            beforeSend: function(e) {
+                if(e && e.overrideMimeType) {
+                e.overrideMimeType("application/json;charset=UTF-8");
+                }
+            },
+            success: function(response){ // Ketika proses pengiriman berhasil
+                // Ubah kembali text button search menjadi SEARCH
+                // Dan hapus atribut disabled untuk meng-enable kembali button search nya
+                // $("#btn-search").html("SEARCH").removeAttr("disabled");
+                // alert('success')
+                // Ganti isi dari div view dengan view yang diambil dari search.php
+                $("#keyword").html(response.hasil);
+            }
+            // error: function (xhr, ajaxOptions, thrownError) { // Ketika terjadi error
+            //     alert(xhr.responseText); // munculkan alert
+            // }
+            });
+            });
+        });
+        });
+    </script>
+@endsection
